@@ -24,12 +24,19 @@ func physics_process(delta: float) -> void:
 
 	# Calculate a move direction vector relative to the camera
 	# The basis stores the (right, up, -forwards) vectors of our camera.
-	var forwards: Vector3 = player.camera.global_transform.basis.z * input_direction.z
-	var right: Vector3 = player.camera.global_transform.basis.x * input_direction.x
+	var forwards: Vector3 = player.camera.global_transform.basis.z
+	forwards.y = 0
+	forwards = forwards.normalized() * input_direction.z
+	
+	var right: Vector3 = player.camera.global_transform.basis.x
+	right.y = 0
+	right = right.normalized() * input_direction.x
+	
 	var move_direction: = forwards + right
+	
 	if move_direction.length() > 1.0:
 		move_direction = move_direction.normalized()
-	move_direction.y = 0
+	
 	skin.move_direction = move_direction
 
 	# Rotation
